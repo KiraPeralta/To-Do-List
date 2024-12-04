@@ -1,0 +1,21 @@
+def agregar_usuario(self):
+        Nombre_de_la_tarea = self.txt_Nombre_de_la_tarea.get()
+        Marcar_como_listo = self.txt_Marcar_como_listo.get()
+        Descripcion = self.txt_Descripcion.get()
+
+        if Nombre_de_la_tarea and Descripcion and Marcar_como_listo:
+            try:
+                conn = obtener_conexion()
+                cursor = conn.cursor()
+                cursor.execute("INSERT INTO usuario (Nombre_de_la_tarea, Marcar_como_listo, Descripcion) VALUES (%s, %s, %s)", (Nombre_de_la_tarea, Marcar_como_listo, Descripcion))
+                conn.commit()
+                messagebox.showinfo("Éxito", "Usuario agregado correctamente.")
+                self.cargar_usuarios()
+                self.limpiar_campos()
+            except mysql.connector.Error as e:
+                messagebox.showerror("Error", f"Error al agregar usuario: {e}")
+            finally:
+                cursor.close()
+                conn.close()
+        else:
+            messagebox.showwarning("Advertencia", "Todos los campos son obligatorios.")
