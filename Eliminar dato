@@ -1,0 +1,18 @@
+def eliminar_usuario(self):
+        selected_item = self.tabla.selection()
+        if selected_item:
+            id = self.tabla.item(selected_item[0], "values")[0]  # Se usa el Marcar_como_listo para eliminar
+            try:
+                conn = obtener_conexion()
+                cursor = conn.cursor()
+                cursor.execute("DELETE FROM usuario WHERE Nombre_de_la_tarea = %s", (id,))
+                conn.commit()
+                messagebox.showinfo("Éxito", "Usuario eliminado correctamente.")
+                self.cargar_usuarios()
+            except mysql.connector.Error as e:
+                messagebox.showerror("Error", f"Error al eliminar usuario: {e}")
+            finally:
+                cursor.close()
+                conn.close()
+        else:
+            messagebox.showwarning("Advertencia", "Selecciona un usuario para eliminar.")
