@@ -1,0 +1,9 @@
+def limpiar_campos(self):
+        self.txt_Nombre_de_la_tarea.delete(0, tk.END)
+        self.txt_Descripcion.delete(0, tk.END)
+        self.txt_Marcar_como_listo.delete(0, tk.END)
+
+# Ejecución de la aplicación
+if __name__ == "__main__":
+    app = App()
+    app.mainloop()
