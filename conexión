@@ -1,0 +1,48 @@
+def obtener_conexion():
+    return mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password='',
+        database='usuariosdb'
+    )
+
+# Clase APP para crear la ventana de datos
+class App(tk.Tk):
+    #Iniciador de la clase  
+    def __init__(self):
+        super().__init__()
+        self.title("CRUD Usuarios")
+        #color de la ventana
+        self.config(background="#F5A9D0")
+        self.geometry("600x400")
+
+        # Campos de entrada de datos y color
+
+        ttk.Label(self, text="Nombre_de_la_tarea:", background="#F5A9D0").grid(row=0, column=0, padx=10, pady=5)
+        self.txt_Nombre_de_la_tarea = ttk.Entry(self)
+        self.txt_Nombre_de_la_tarea.grid(row=0, column=1, padx=10, pady=5)
+
+        ttk.Label(self, text="Descripcion:",background="#F5A9D0").grid(row=1, column=0, padx=10, pady=5)
+        self.txt_Descripcion = ttk.Entry(self)
+        self.txt_Descripcion.grid(row=1, column=1, padx=10, pady=5)
+
+        ttk.Label(self, text="Marcar_como_listo:",background="#F5A9D0").grid(row=2, column=0, padx=10, pady=5)
+        self.txt_Marcar_como_listo = ttk.Entry(self)
+        self.txt_Marcar_como_listo.grid(row=2, column=1, padx=10, pady=5)
+
+        # Botones de la ventana y color
+
+        ttk.Button(self, text="Agregar", command=self.agregar_usuario).grid(row=3, column=0, pady=10)
+        #ttk.Button(self, text="Cargar", command=self.cargar_usuarios).grid(row=3, column=1, pady=10)
+        ttk.Button(self, text="Eliminar", command=self.eliminar_usuario).grid(row=3, column=1, pady=10)
+        ttk.Button(self, text="Modificar", command=self.modificar_usuario).grid(row=3, column=2, pady=10)
+
+
+
+        # Se crea la tabla donde se mostrarán los datos
+        columnas = ("Nombre_de_la_tarea", "Descripcion", "Marcar_como_listo_(si/no)")
+        self.tabla = ttk.Treeview(self, columns=columnas, show="headings")
+        for col in columnas:
+            self.tabla.heading(col, text=col)
+        self.tabla.grid(row=4, column=0, columnspan=4, pady=10)
+        self.cargar_usuarios()
