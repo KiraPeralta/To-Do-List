@@ -1,0 +1,29 @@
+def modificar_usuario(self):
+        selected_item = self.tabla.selection()
+        if selected_item:
+            id = self.tabla.item(selected_item[0], "values")[0]
+            Nombre_de_la_tarea = self.txt_Nombre_de_la_tarea.get()
+            Marcar_como_listo2 = self.txt_Marcar_como_listo.get()
+            Descripcion = self.txt_Descripcion.get()
+            # Se asegura de que todos los campos estén completos
+            if Nombre_de_la_tarea and Marcar_como_listo2 and Descripcion:
+                try:
+                    conn = obtener_conexion()
+                    cursor = conn.cursor()
+                    cursor.execute("""
+                        UPDATE usuario SET Nombre_de_la_tarea = %s, Marcar_como_listo = %s, Descripcion = %s
+                        WHERE Nombre_de_la_tarea = %s
+                    """, (Nombre_de_la_tarea, Marcar_como_listo2,Descripcion, id))
+                    conn.commit()
+                    messagebox.showinfo("Éxito", "Usuario modificado correctamente.")
+                    self.cargar_usuarios()
+                    self.limpiar_campos()
+                except mysql.connector.Error as e:
+                    messagebox.showerror("Error", f"Error al modificar usuario: {e}")
+                finally:
+                    cursor.close()
+                    conn.close()
+            else:
+                messagebox.showwarning("Advertencia", "Todos los campos son obligatorios.")
+        else:
+            messagebox.showwarning("Advertencia", "Selecciona un usuario para modificar.")
